@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LENORE — Where Luxury Flows Every Day | Premium Sanitary Ware</title>
+    <meta name="description" content="Lenore — luxury sanitary ware crafted in excellence. Discover premium faucets, showers, and hygiene solutions with timeless gold craftsmanship.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; font-weight: 600; }
+        p { line-height: 1.7; }
+        .container { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #b8962e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+        /* ===== HEADER / NAVIGATION ===== */
+        .header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0 40px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(184, 150, 46, 0.1);
+            transition: all 0.4s ease;
+        }
+        .header.scrolled {
+            padding: 0 40px;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(184, 150, 46, 0.25);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #b8962e;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: text-shadow 0.3s ease;
+        }
+        .logo:hover {
+            text-shadow: 0 0 20px rgba(184, 150, 46, 0.4);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-links a {
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #999;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: #b8962e;
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover { color: #b8962e; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: #b8962e; }
+        .nav-links a.active::after { width: 100%; }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+            padding: 8px;
+        }
+        .search-btn:hover { color: #b8962e; }
+        .search-btn svg { width: 18px; height: 18px; }
+
+        .shop-btn {
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: #b8962e;
+            color: #0a0a0a;
+            border: 2px solid #b8962e;
+            padding: 10px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .shop-btn:hover {
+            background: transparent;
+            color: #b8962e;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+            padding: 8px;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #b8962e;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(30px);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .mobile-menu.active { display: flex; opacity: 1; }
+        .mobile-menu a {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 500;
+            color: #ccc;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .mobile-menu a:hover { color: #b8962e; transform: translateX(8px); }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 72px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.85) 45%, rgba(10,10,10,0.4) 100%);
+            z-index: 1;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0; right: 0;
+            width: 55%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.9;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: clamp(24px, 4vw, 54px);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #ffffff;
+            white-space: nowrap;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
+        }
+        .hero-title span {
+            display: inline;
+            font-style: italic;
+            color: #b8962e;
+        }
+        .hero-desc {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 420px;
+        }
+        .btn-primary {
+            display: inline-block;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #b8962e;
+            border: 1.5px solid #b8962e;
+            padding: 16px 36px;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: #b8962e;
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .btn-primary:hover {
+            color: #0a0a0a;
+        }
+        .btn-primary:hover::before {
+            left: 0;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: scrollBounce 2s infinite;
+        }
+        .scroll-indicator .line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, #b8962e, transparent);
+        }
+        @keyframes scrollBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        /* ===== DIVIDER ===== */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(184,150,46,0.3), transparent);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 80px 0;
+            background: #0a0a0a;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+        .feature-card {
+            padding: 40px 24px;
+            border: 1px solid rgba(184,150,46,0.12);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(184,150,46,0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .feature-card:hover {
+            border-color: rgba(184,150,46,0.35);
+            transform: translateY(-4px);
+        }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 20px;
+            color: #b8962e;
+        }
+        .feature-icon svg { width: 100%; height: 100%; }
+        .feature-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .feature-text {
+            font-size: 13px;
+            color: #777;
+            line-height: 1.7;
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery {
+            padding: 100px 0;
+            background: #0a0a0a;
+        }
+        .gallery-header {
+            margin-bottom: 60px;
+        }
+        .gallery-title {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .gallery-desc {
+            font-size: 14px;
+            color: #777;
+            max-width: 500px;
+            line-height: 1.7;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 3/4;
+            border: 1px solid rgba(184,150,46,0.08);
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease, filter 0.6s ease;
+        }
+        .gallery-card:hover img {
+            transform: scale(1.08);
+            filter: brightness(0.7);
+        }
+        .gallery-card-overlay {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            padding: 30px 24px;
+            background: linear-gradient(to top, rgba(10,10,10,0.95), transparent);
+            transform: translateY(10px);
+            opacity: 0.8;
+            transition: all 0.4s ease;
+        }
+        .gallery-card:hover .gallery-card-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .gallery-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .gallery-card-link {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #b8962e;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.3s ease;
+        }
+        .gallery-card:hover .gallery-card-link { gap: 12px; }
+        .gallery-card-link svg { width: 14px; height: 14px; }
+
+        /* ===== HERITAGE SECTION ===== */
+        .heritage {
+            padding: 120px 0;
+            background: #0e0e0e;
+        }
+        .heritage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .heritage-image-area {
+            position: relative;
+        }
+        .heritage-img-main {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border: 1px solid rgba(184,150,46,0.15);
+        }
+        .heritage-quote {
+            position: absolute;
+            bottom: 30px;
+            left: -20px;
+            background: rgba(10,10,10,0.92);
+            border-left: 3px solid #b8962e;
+            padding: 24px 28px;
+            max-width: 300px;
+            backdrop-filter: blur(10px);
+        }
+        .heritage-quote p {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .heritage-content {
+            padding-left: 20px;
+        }
+        .heritage-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #b8962e;
+            margin-bottom: 20px;
+        }
+        .heritage-heading {
+            font-size: clamp(30px, 3.5vw, 44px);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 28px;
+        }
+        .heritage-text {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .heritage-text:last-of-type {
+            margin-bottom: 36px;
+        }
+        .btn-outline {
+            display: inline-block;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #b8962e;
+            border: 1.5px solid rgba(184,150,46,0.5);
+            padding: 14px 32px;
+            cursor: pointer;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+        .btn-outline:hover {
+            border-color: #b8962e;
+            background: rgba(184,150,46,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('images/cta-bg.png') center/cover no-repeat;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+        .cta::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(10,10,10,0.6), rgba(10,10,10,0.85));
+        }
+        .cta .container {
+            position: relative;
+            z-index: 2;
+        }
+        .cta-title {
+            font-size: clamp(36px, 4.5vw, 56px);
+            font-weight: 600;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            color: #b8962e;
+        }
+        .cta-text {
+            font-size: 14px;
+            color: #999;
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        .btn-gold {
+            display: inline-block;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: #b8962e;
+            color: #0a0a0a;
+            border: 2px solid #b8962e;
+            padding: 18px 44px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        .btn-gold:hover {
+            background: transparent;
+            color: #b8962e;
+            box-shadow: 0 0 30px rgba(184,150,46,0.25);
+        }
+
+        /* ===== WHATSAPP SECTION ===== */
+        .whatsapp {
+            padding: 80px 0;
+            background: #111111;
+            text-align: center;
+            border-top: 1px solid rgba(184,150,46,0.1);
+        }
+        .whatsapp-title {
+            font-size: clamp(28px, 3.5vw, 40px);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .whatsapp-desc {
+            font-size: 13px;
+            color: #777;
+            max-width: 580px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+        .whatsapp-phone {
+            font-family: 'Lato', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #b8962e;
+            margin-bottom: 28px;
+        }
+        .whatsapp-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: #25D366;
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover {
+            background: #1EB851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37,211,102,0.3);
+        }
+        .btn-whatsapp svg { width: 18px; height: 18px; }
+        .btn-call {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: transparent;
+            color: #b8962e;
+            border: 1.5px solid rgba(184,150,46,0.5);
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-call:hover {
+            border-color: #b8962e;
+            background: rgba(184,150,46,0.1);
+            transform: translateY(-2px);
+        }
+        .btn-call svg { width: 18px; height: 18px; }
+
+        .contact-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+        }
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #888;
+        }
+        .contact-info-item svg {
+            width: 16px;
+            height: 16px;
+            color: #b8962e;
+        }
+        .contact-info-item a {
+            color: #888;
+            transition: color 0.3s ease;
+        }
+        .contact-info-item a:hover { color: #b8962e; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 60px 0 32px;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(184,150,46,0.1);
+        }
+        .footer-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #b8962e;
+            text-transform: uppercase;
+        }
+        .footer-nav {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+        .footer-nav a {
+            font-size: 12px;
+            font-weight: 400;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+        .footer-nav a:hover { color: #b8962e; }
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(184,150,46,0.2);
+            color: #888;
+            transition: all 0.3s ease;
+        }
+        .footer-social a:hover {
+            border-color: #b8962e;
+            color: #b8962e;
+            transform: translateY(-2px);
+        }
+        .footer-social a svg { width: 16px; height: 16px; }
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(184,150,46,0.1);
+            margin-bottom: 24px;
+        }
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy {
+            font-size: 12px;
+            color: #555;
+        }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-links a {
+            font-size: 11px;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover { color: #b8962e; }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Gold shimmer effect */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .gold-shimmer {
+            background: linear-gradient(90deg, #b8962e, #d4af37, #f0d060, #d4af37, #b8962e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* ===== SEARCH MODAL ===== */
+        .search-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .search-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .search-modal-inner {
+            width: 100%;
+            max-width: 600px;
+            padding: 0 24px;
+        }
+        .search-modal input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(184,150,46,0.4);
+            padding: 20px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .search-modal input:focus {
+            border-color: #b8962e;
+        }
+        .search-modal input::placeholder {
+            color: #555;
+        }
+        .search-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 32px;
+            transition: color 0.3s ease;
+        }
+        .search-close:hover { color: #b8962e; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .heritage-grid { gap: 50px; }
+            .nav-links { gap: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .fade-in { transform: translateY(15px); }
+            .fade-in-left, .fade-in-right { transform: translateY(15px); }
+            .fade-in.visible, .fade-in-left.visible, .fade-in-right.visible { transform: translate(0, 0); }
+
+            .header { padding: 0 20px; }
+            .hamburger { display: flex; }
+            .nav-links { display: none; }
+            .shop-btn { display: none; }
+
+            .hero-content { max-width: 100%; }
+            .hero-bg { width: 100%; opacity: 0.35; }
+            .hero-desc { max-width: 100%; }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            .heritage-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .heritage-content { padding-left: 0; }
+            .heritage-quote { left: 10px; }
+
+            .contact-info-row { gap: 24px; }
+
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-title {
+                font-size: clamp(18px, 6.5vw, 32px);
+            }
+            .whatsapp-actions {
+                flex-direction: column;
+            }
+            .contact-info-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* --- GSAP & HERO MOBILE UPDATES --- */
+        @media screen and (max-width: 768px) {
+            .hero::before {
+                background: rgba(0, 0, 0, 0.65) !important;
+            }
+            .hero-bg {
+                width: 100% !important;
+                left: 0;
+            }
+            .hero .container {
+                justify-content: center;
+                text-align: center;
+            }
+            .hero-content {
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="#hero" class="logo">LENORE</a>
+            <nav class="nav-links">
+                <a href="catalog.html">Products</a>
+                <a href="index.html#heritage">About</a>
+                <a href="index.html#features">Services</a>
+                <a href="index.html#whatsapp">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="search-btn" id="searchOpen" aria-label="Search">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </button>
+                <a href="catalog.html" class="shop-btn">Shop</a>
+                <div class="hamburger" id="hamburger">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="catalog.html">Products</a>
+        <a href="index.html#heritage">About</a>
+        <a href="index.html#features">Services</a>
+        <a href="index.html#whatsapp">Contact</a>
+        <a href="catalog.html" style="color:#b8962e;font-size:16px;font-family:'Lato',sans-serif;letter-spacing:3px;border:1.5px solid #b8962e;padding:12px 36px;margin-top:16px;">SHOP</a>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <button class="search-close" id="searchClose">&times;</button>
+        <div class="search-modal-inner">
+            <input type="text" placeholder="Search collections..." autofocus>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+        <video class="hero-bg" autoplay muted loop playsinline poster="images/hero-faucet-steel.png">
+            <source src="images/hero-video.webm" type="video/webm">
+            <source src="images/hero-video.mp4" type="video/mp4">
+            <img src="images/hero-faucet-steel.png" alt="Fallback luxury faucet image">
+        </video>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Where Luxury <span>Flows</span> Every Day
+                </h1>
+                <p class="hero-desc">Discover our curated collection of premium sanitary ware, where timeless craftsmanship meets modern elegance. Each piece is designed to transform your bathroom into a sanctuary of luxury.</p>
+                <a href="catalog.html" class="btn-primary">Explore Collection</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== */-->
+    <div class="section-divider"></div>
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="feature-title">Est. 2015</h3>
+                    <p class="feature-text">A decade of redefining elegance in sanitary ware, trusted by discerning homeowners worldwide.</p>
+                </div>
+                <div class="feature-card fade-in" style="transition-delay:0.15s">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <h3 class="feature-title">Premium Quality</h3>
+                    <p class="feature-text">Crafted from the finest materials with meticulous attention to detail—built to last generations.</p>
+                </div>
+                <div class="feature-card fade-in" style="transition-delay:0.3s">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="feature-title">Global White-Glove<br>Shipping</h3>
+                    <p class="feature-text">Delivered with care to your doorstep, anywhere in the world—sealed, insured, and timely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY SECTION ===== -->
+    <div class="section-divider"></div>
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="gallery-header fade-in">
+                <h2 class="gallery-title">The Curated Gallery</h2>
+                <p class="gallery-desc">Explore our distinguished collection—a curated assembly of masterpieces, each designed to elevate the everyday ritual of modern luxury.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-card fade-in">
+                    <img src="images/gallery-faucet-steel.png" alt="Luxury Faucets Collection">
+                    <div class="gallery-card-overlay">
+                        <h3 class="gallery-card-title">Faucets</h3>
+                        <a href="#" class="gallery-card-link">
+                            View More
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="gallery-card fade-in" style="transition-delay:0.15s">
+                    <img src="images/gallery-shower-steel.png" alt="Premium Showers Collection">
+                    <div class="gallery-card-overlay">
+                        <h3 class="gallery-card-title">Showers</h3>
+                        <a href="#" class="gallery-card-link">
+                            View More
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="gallery-card fade-in" style="transition-delay:0.3s">
+                    <img src="images/gallery-hygiene-steel.png" alt="Hygiene Solutions Collection">
+                    <div class="gallery-card-overlay">
+                        <h3 class="gallery-card-title">Hygiene</h3>
+                        <a href="#" class="gallery-card-link">
+                            View More
+                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HERITAGE SECTION ===== -->
+    <section class="heritage" id="heritage">
+        <div class="container">
+            <div class="heritage-grid">
+                <div class="heritage-image-area fade-in-left">
+                    <img src="images/heritage-steel.png" alt="Lenore Heritage Craftsmanship" class="heritage-img-main">
+                    <div class="heritage-quote">
+                        <p>"The artistry we invest in the excellence of our products reflects the beauty we believe everyone deserves."</p>
+                    </div>
+                </div>
+                <div class="heritage-content fade-in-right">
+                    <div class="heritage-label">Heritage</div>
+                    <h2 class="heritage-heading">The Heritage of<br>Modern Craft</h2>
+                    <p class="heritage-text">Bringing timeless luxury to modern-day bathrooms since 2015. Our dedication to craftsmanship runs deeper than the products we create.</p>
+                    <p class="heritage-text">Every Lenore piece is born from a passion for perfection—melding old-world artistry with contemporary innovation to deliver bathroom experiences that are nothing short of extraordinary.</p>
+                    <a href="#" class="btn-outline">Heritage and Philosophy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2 class="cta-title fade-in">Upgrade Your<br>Bathroom Today</h2>
+            <p class="cta-text fade-in" style="transition-delay:0.15s">Let the ritual of your everyday routine transform from a chore into a moment of luxury. Start your journey with Lenore — where excellence meets elegance.</p>
+            <a href="index.html#whatsapp" class="btn-gold fade-in" style="transition-delay:0.3s">Book a Consultation</a>
+        </div>
+    </section>
+
+    <!-- ===== WHATSAPP SECTION ===== -->
+    <section class="whatsapp" id="whatsapp">
+        <div class="container">
+            <h2 class="whatsapp-title fade-in">Contact Us on WhatsApp</h2>
+            <p class="whatsapp-desc fade-in" style="transition-delay:0.1s">Experience personalized service via our dedicated WhatsApp concierge. Our luxury bathroom experts are standing by to guide you through your design journey. Available 7 days a week.</p>
+            <p class="whatsapp-phone fade-in" style="transition-delay:0.2s">+91 98XXX-XXXXX</p>
+            <div class="whatsapp-actions fade-in" style="transition-delay:0.25s">
+                <a href="https://wa.me/919800000000" target="_blank" class="btn-whatsapp">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Chat on WhatsApp
+                </a>
+                <a href="tel:+919800000000" class="btn-call">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    Call Now
+                </a>
+            </div>
+            <div class="contact-info-row fade-in" style="transition-delay:0.35s">
+                <div class="contact-info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <a href="mailto:inquire@lenore.com">inquire@lenore.com</a>
+                </div>
+                <div class="contact-info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <span>ASIA LENORE</span>
+                </div>
+                <div class="contact-info-item">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>Mumbai, London • Global Showrooms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">LENORE</div>
+                <nav class="footer-nav">
+                    <a href="catalog.html">Products</a>
+                    <a href="index.html#heritage">About</a>
+                    <a href="index.html#features">Services</a>
+                    <a href="index.html#whatsapp">Contact</a>
+                </nav>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" aria-label="Pinterest">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12.017 24c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641 0 12.017 0z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <p class="footer-copy">&copy; 2025 Lenore. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* ===== HEADER SCROLL ===== */
+        const header = document.getElementById('header');
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > 60) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            lastScroll = currentScroll;
+        });
+
+        /* ===== ACTIVE NAV HIGHLIGHTING ===== */
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 120;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        /* ===== HAMBURGER MENU ===== */
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        /* ===== SEARCH MODAL ===== */
+        const searchOpen = document.getElementById('searchOpen');
+        const searchModal = document.getElementById('searchModal');
+        const searchClose = document.getElementById('searchClose');
+        searchOpen.addEventListener('click', () => {
+            searchModal.classList.add('active');
+            searchModal.querySelector('input').focus();
+        });
+        searchClose.addEventListener('click', () => {
+            searchModal.classList.remove('active');
+        });
+        searchModal.addEventListener('click', (e) => {
+            if (e.target === searchModal) {
+                searchModal.classList.remove('active');
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                searchModal.classList.remove('active');
+            }
+        });
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        /* ===== SMOOTH SCROLL FOR ALL ANCHOR LINKS ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        /* ===== GSAP HERO ANIMATIONS ===== */
+        gsap.registerPlugin(ScrollTrigger);
+
+        let mm = gsap.matchMedia();
+
+        // Load Animation (All Screens)
+        gsap.fromTo(".hero-content", 
+            { opacity: 0, y: 50 }, 
+            { opacity: 1, y: 0, duration: 1.5, ease: "power2.out", delay: 0.2 }
+        );
+
+        mm.add("(min-width: 769px)", () => {
+            // Desktop: Subtle parallax effect on scroll
+            gsap.to(".hero-bg", {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1
+                }
+            });
+        });
+
+        mm.add("(max-width: 768px)", () => {
+            // Mobile: Slow zoom in animation + Parallax override
+            gsap.fromTo(".hero-bg", 
+                { scale: 1 },
+                { 
+                    scale: 1.1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1
+                    }
+                }
+            );
+        });
+    </script>
+<!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</body>
+</html>
