@@ -7,6 +7,7 @@
     <meta name="description" content="Lenore — luxury sanitary ware crafted in excellence. Discover premium faucets, showers, and hygiene solutions with timeless gold craftsmanship.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="cart-ui.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
@@ -381,18 +382,24 @@
         }
         .gallery-card {
             position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            aspect-ratio: 3/4;
             border: 1px solid rgba(184,150,46,0.08);
+            display: flex;
+            flex-direction: column;
+            background: #0f0f0f;
         }
-        .gallery-card img {
+        .gallery-card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+        }
+        .gallery-card-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.6s ease, filter 0.6s ease;
         }
-        .gallery-card:hover img {
+        .gallery-card-img-wrap:hover img {
             transform: scale(1.08);
             filter: brightness(0.7);
         }
@@ -400,15 +407,8 @@
             position: absolute;
             bottom: 0; left: 0;
             width: 100%;
-            padding: 30px 24px;
-            background: linear-gradient(to top, rgba(10,10,10,0.95), transparent);
-            transform: translateY(10px);
-            opacity: 0.8;
-            transition: all 0.4s ease;
-        }
-        .gallery-card:hover .gallery-card-overlay {
-            transform: translateY(0);
-            opacity: 1;
+            padding: 20px 20px 16px;
+            background: linear-gradient(to top, rgba(10,10,10,0.97), transparent);
         }
         .gallery-card-title {
             font-family: 'Playfair Display', serif;
@@ -989,6 +989,10 @@
                 <button class="search-btn" id="searchOpen" aria-label="Search">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                 </button>
+                <button class="cart-icon-btn" onclick="openCart()" aria-label="Cart">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                    <span class="cart-badge">0</span>
+                </button>
                 <a href="catalog.html" class="shop-btn">Shop</a>
                 <div class="hamburger" id="hamburger">
                     <span></span><span></span><span></span>
@@ -1035,39 +1039,64 @@
             <div class="catalog-grid">
                 <!-- Product 1 -->
                 <div class="gallery-card fade-in">
+                    <div class="gallery-card-img-wrap">
                     <img src="images/gallery-faucet-steel.png" alt="Onyx Brushed Steel Faucet">
                     <div class="gallery-card-overlay">
                         <h3 class="gallery-card-title">Onyx Edition</h3>
-                        <p style="color:#aaa; font-size:12px; margin-bottom:12px;">Faucets</p>
+                        <p style="color:#aaa; font-size:11px; margin-bottom:10px;">Faucets</p>
                         <a href="product.html" class="gallery-card-link">
                             View Details
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-add-cart" onclick="addToCart('onyx-faucet','Onyx Edition Faucet','','images/gallery-faucet-steel.png','Faucets')">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                        Add to Cart
+                    </button>
+                    <button class="btn-order-wa" onclick="orderProductViaWhatsapp('Onyx Edition Faucet','Faucets')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Order via WhatsApp
+                    </button>
+                </div>
                 </div>
                 <!-- Product 2 -->
                 <div class="gallery-card fade-in" style="transition-delay:0.1s">
+                    <div class="gallery-card-img-wrap">
                     <img src="images/gallery-shower-steel.png" alt="Aura Rain Shower">
                     <div class="gallery-card-overlay">
                         <h3 class="gallery-card-title">Aura Rain System</h3>
-                        <p style="color:#aaa; font-size:12px; margin-bottom:12px;">Showers</p>
-                        <a href="product.html" class="gallery-card-link">
-                            View Details
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </a>
+                        <p style="color:#aaa; font-size:11px; margin-bottom:10px;">Showers</p>
+                        <a href="product.html" class="gallery-card-link">View Details <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
                     </div>
                 </div>
-                <!-- Product 3 -->
+                <div class="card-actions">
+                    <button class="btn-add-cart" onclick="addToCart('aura-shower','Aura Rain System','','images/gallery-shower-steel.png','Showers')">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Add to Cart
+                    </button>
+                    <button class="btn-order-wa" onclick="orderProductViaWhatsapp('Aura Rain System','Showers')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Order via WhatsApp
+                    </button>
+                </div>
+                       <!-- Product 3 -->
                 <div class="gallery-card fade-in" style="transition-delay:0.2s">
+                    <div class="gallery-card-img-wrap">
                     <img src="images/gallery-hygiene-steel.png" alt="Eclipse Hygiene System">
                     <div class="gallery-card-overlay">
                         <h3 class="gallery-card-title">Eclipse Hygiene</h3>
-                        <p style="color:#aaa; font-size:12px; margin-bottom:12px;">Hygiene</p>
-                        <a href="product.html" class="gallery-card-link">
-                            View Details
-                            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </a>
+                        <p style="color:#aaa; font-size:11px; margin-bottom:10px;">Hygiene</p>
+                        <a href="product.html" class="gallery-card-link">View Details <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
                     </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-add-cart" onclick="addToCart('eclipse-hygiene','Eclipse Hygiene System','','images/gallery-hygiene-steel.png','Hygiene')">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> Add to Cart
+                    </button>
+                    <button class="btn-order-wa" onclick="orderProductViaWhatsapp('Eclipse Hygiene System','Hygiene')">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Order via WhatsApp
+                    </button>
+                </div>
                 </div>
                 <!-- Product 4 -->
                 <div class="gallery-card fade-in" style="transition-delay:0.3s">
@@ -1075,10 +1104,20 @@
                     <div class="gallery-card-overlay">
                         <h3 class="gallery-card-title">Heritage Classic</h3>
                         <p style="color:#aaa; font-size:12px; margin-bottom:12px;">Faucets</p>
-                        <a href="product.html" class="gallery-card-link">
+                <a href="product.html" class="gallery-card-link">
                             View Details
                             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
+                        <div class="card-actions">
+                            <button class="btn-add-cart" onclick="addToCart('heritage-classic','Heritage Classic','','images/heritage-steel.png','Faucets')">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                                Add to Cart
+                            </button>
+                            <button class="btn-order-wa" onclick="orderProductViaWhatsapp('Heritage Classic','Faucets')">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                Order via WhatsApp
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1232,6 +1271,35 @@
             }
         });
     </script>
+
+    <!-- ===== CART OVERLAY ===== -->
+    <div id="cartOverlay" onclick="closeCart()"></div>
+
+    <!-- ===== CART DRAWER ===== -->
+    <div id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Selection</h3>
+            <button class="cart-close-btn" onclick="closeCart()">&times;</button>
+        </div>
+        <div id="cartEmpty">
+            <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <p>Your cart is empty</p>
+            <a href="catalog.html">Browse Collection</a>
+        </div>
+        <div id="cartItemsList"></div>
+        <div id="cartFooter">
+            <button class="cart-wa-btn" onclick="orderCartViaWhatsapp()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Order via WhatsApp
+            </button>
+            <button class="cart-clear-btn" onclick="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="cartToast"></div>
+
+    <script src="cart.js"></script>
 </body>
 </html>
 
