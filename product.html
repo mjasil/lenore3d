@@ -1584,17 +1584,15 @@
             document.getElementById('prodCategory').textContent = (p.category || '') + ' Collection';
             document.getElementById('prodName').textContent = p.name || '';
             document.getElementById('prodDesc').textContent = p.description || '';
-            document.title = \`LENORE — \${p.name || 'Product'}\`;
+            document.title = 'LENORE — ' + (p.name || 'Product');
 
             // Build image gallery thumbnails
             const thumbsEl = document.getElementById('prodThumbs');
             const allImgs = [p.imageUrl, ...(p.extraImages || [])].filter(Boolean);
             if (allImgs.length > 1) {
-                thumbsEl.innerHTML = allImgs.map((url, i) => `
-                    <img src="${url}" class="gallery-thumb ${i === 0 ? 'active' : ''}"
-                         onclick="switchMainImg(this, '${url}')"
-                         onerror="this.style.display='none'">
-                `).join('');
+                thumbsEl.innerHTML = allImgs.map(function(url, i) {
+                    return '<img src="' + url + '" class="gallery-thumb ' + (i === 0 ? 'active' : '') + '" onclick="switchMainImg(this, \'' + url + '\')" onerror="this.style.display=\'none\'">';
+                }).join('');
             } else {
                 thumbsEl.innerHTML = '';
             }
@@ -1611,12 +1609,9 @@
             const warrantyBox = document.getElementById('prodWarrantyBox');
             const warrantyGrid = document.getElementById('prodWarrantyGrid');
             if (warrantyItems.length > 0) {
-                warrantyGrid.innerHTML = warrantyItems.map(item => `
-                    <div class="warranty-box-item">
-                        <div class="warranty-box-label">${item.label}</div>
-                        <div class="warranty-box-value">${item.value}</div>
-                    </div>
-                `).join('');
+                warrantyGrid.innerHTML = warrantyItems.map(function(item) {
+                    return '<div class="warranty-box-item"><div class="warranty-box-label">' + item.label + '</div><div class="warranty-box-value">' + item.value + '</div></div>';
+                }).join('');
                 warrantyBox.style.display = 'block';
             } else {
                 warrantyBox.style.display = 'none';
