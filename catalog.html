@@ -1098,6 +1098,7 @@
         @media (max-width: 768px) {
             .logo-img { height: 46px; }
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -1162,56 +1163,12 @@
     <!-- ===== CATALOG GRID ===== -->
     <section class="catalog-main" id="catalog">
         <div class="container">
-            <div class="catalog-grid">
-
-                <!-- Product 1 -->
-                <div class="gallery-card fade-in" data-category="Faucets">
-                    <a href="product.html" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
-                        <img src="images/gallery-faucet-steel.png" alt="Onyx Edition Faucet">
-                        <div class="gallery-card-overlay">
-                            <h3 class="gallery-card-title">Onyx Edition</h3>
-                            <p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">Faucets</p>
-                            <span class="gallery-card-link"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
-                        </div>
-                    </a>
+            <div id="catalogGrid" class="catalog-grid">
+                <!-- Products loaded from Firebase -->
+                <div style="grid-column:1/-1;text-align:center;padding:60px 0;">
+                    <div style="width:28px;height:28px;border:2px solid rgba(184,150,46,0.2);border-top-color:#b8962e;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 16px;"></div>
+                    <p style="color:#555;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Loading Collection...</p>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="gallery-card fade-in" data-category="Showers" style="transition-delay:0.1s">
-                    <a href="product.html" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
-                        <img src="images/gallery-shower-steel.png" alt="Aura Rain Shower">
-                        <div class="gallery-card-overlay">
-                            <h3 class="gallery-card-title">Aura Rain</h3>
-                            <p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">Showers</p>
-                            <span class="gallery-card-link"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="gallery-card fade-in" data-category="Hygiene" style="transition-delay:0.2s">
-                    <a href="product.html" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
-                        <img src="images/gallery-hygiene-steel.png" alt="Eclipse Hygiene">
-                        <div class="gallery-card-overlay">
-                            <h3 class="gallery-card-title">Eclipse</h3>
-                            <p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">Hygiene</p>
-                            <span class="gallery-card-link"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="gallery-card fade-in" data-category="Faucets" style="transition-delay:0.3s">
-                    <a href="product.html" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
-                        <img src="images/heritage-steel.png" alt="Heritage Classic">
-                        <div class="gallery-card-overlay">
-                            <h3 class="gallery-card-title">Heritage</h3>
-                            <p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">Faucets</p>
-                            <span class="gallery-card-link"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></span>
-                        </div>
-                    </a>
-                </div>
-
             </div>
         </div>
     </section>
@@ -1475,23 +1432,88 @@
     </script>
 
 
-    <script>
-    /* ===== CATALOG FILTER ===== */
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            const filter = this.getAttribute('data-filter');
-            document.querySelectorAll('.gallery-card').forEach(card => {
-                if (filter === 'All' || card.getAttribute('data-category') === filter) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
+
+
+    <!-- Firebase Dynamic Catalog -->
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD7xOFrxjaszBRmQrB9Jx9jL7jrSOgyZ4o",
+        authDomain: "lenore-c8447.firebaseapp.com",
+        projectId: "lenore-c8447",
+        storageBucket: "lenore-c8447.firebasestorage.app",
+        messagingSenderId: "190737484441",
+        appId: "1:190737484441:web:25a45124f2c556b3b74608"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    const arrow = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>`;
+
+    let allProducts = [];
+    let currentFilter = 'All';
+
+    // Listen to products in real-time
+    onSnapshot(collection(db, 'products'), snap => {
+        allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        updateFilterButtons();
+        renderProducts(currentFilter);
+    });
+
+    function updateFilterButtons() {
+        const cats = [...new Set(allProducts.map(p => p.category).filter(Boolean))].sort();
+        const container = document.querySelector('.catalog-filters');
+        if (!container) return;
+
+        container.innerHTML = `<button class="filter-btn ${currentFilter === 'All' ? 'active' : ''}" data-filter="All">All</button>`;
+        cats.forEach(cat => {
+            container.innerHTML += `<button class="filter-btn ${currentFilter === cat ? 'active' : ''}" data-filter="${cat}">${cat}</button>`;
+        });
+
+        container.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentFilter = this.getAttribute('data-filter');
+                container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                renderProducts(currentFilter);
             });
         });
-    });
+    }
+
+    function renderProducts(filter) {
+        const grid = document.getElementById('catalogGrid');
+        const filtered = filter === 'All' ? allProducts : allProducts.filter(p => p.category === filter);
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#555;font-size:13px;letter-spacing:1px;text-transform:uppercase;">No products found.</div>`;
+            return;
+        }
+
+        grid.innerHTML = filtered.map((p, i) => `
+            <div class="gallery-card fade-in" data-category="${p.category || ''}" style="transition-delay:${i * 0.07}s">
+                <a href="product.html?id=${p.id}" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
+                    <img src="${p.imageUrl || 'images/gallery-faucet-steel.png'}" alt="${p.name}" onerror="this.src='images/gallery-faucet-steel.png'">
+                    <div class="gallery-card-overlay">
+                        <h3 class="gallery-card-title">${p.name}</h3>
+                        <p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">${p.category || ''}</p>
+                        <span class="gallery-card-link">${arrow}</span>
+                    </div>
+                </a>
+            </div>
+        `).join('');
+
+        // Trigger fade-in animations
+        requestAnimationFrame(() => {
+            document.querySelectorAll('#catalogGrid .gallery-card.fade-in').forEach(el => {
+                el.classList.add('visible');
+            });
+        });
+    }
     </script>
+
 </body>
 </html>
 
