@@ -1192,6 +1192,23 @@
             white-space: nowrap; pointer-events: none;
         }
         #cartToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ===== LOGO IMAGE ===== */
+        .logo-img {
+            height: 44px;
+            width: auto;
+            display: block;
+            mix-blend-mode: multiply;
+            filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.85);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+        .logo-img:hover {
+            filter: invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(1);
+            transform: scale(1.03);
+        }
+        @media (max-width: 768px) {
+            .logo-img { height: 36px; }
+        }
     </style>
 </head>
 <body>
@@ -1199,7 +1216,7 @@
     <!-- ===== HEADER ===== -->
     <header class="header" id="header">
         <div class="header-inner">
-            <a href="#hero" class="logo">LENORE</a>
+            <a href="index.html" class="logo"><img src="images/logo.png" alt="Lenore" class="logo-img"></a>
             <nav class="nav-links">
                 <a href="catalog.html">Products</a>
                 <a href="index.html#heritage">About</a>
@@ -1424,7 +1441,7 @@
     <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-top">
-                <div class="footer-logo">LENORE</div>
+                <div class="footer-logo"><img src="images/logo.png" alt="Lenore" style="height:36px;width:auto;filter:invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(0.85);"></div>
                 <nav class="footer-nav">
                     <a href="catalog.html">Products</a>
                     <a href="index.html#heritage">About</a>
