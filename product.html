@@ -1055,6 +1055,85 @@
         @media (max-width: 768px) {
             .logo-img { height: 46px; }
         }
+
+        /* ── IMAGE GALLERY ── */
+        .product-gallery { width: 100%; }
+        .gallery-main-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border: 1px solid rgba(184,150,46,0.15);
+            cursor: zoom-in;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .gallery-thumb {
+            width: 72px; height: 72px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        .gallery-thumb.active, .gallery-thumb:hover {
+            border-color: #b8962e;
+            opacity: 1;
+        }
+        /* ── WARRANTY BOX ── */
+        .warranty-box {
+            border: 1px solid rgba(184,150,46,0.15);
+            background: rgba(184,150,46,0.04);
+            padding: 0;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        .warranty-box-header {
+            background: rgba(184,150,46,0.08);
+            border-bottom: 1px solid rgba(184,150,46,0.15);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .warranty-box-header svg {
+            width: 16px; height: 16px;
+            color: #b8962e; flex-shrink: 0;
+        }
+        .warranty-box-header span {
+            font-family: 'Lato', sans-serif;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: #b8962e;
+        }
+        .warranty-box-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .warranty-box-item {
+            padding: 14px 20px;
+            border-right: 1px solid rgba(184,150,46,0.1);
+            border-bottom: 1px solid rgba(184,150,46,0.1);
+        }
+        .warranty-box-item:nth-child(2n) { border-right: none; }
+        .warranty-box-label {
+            font-size: 9px; letter-spacing: 2px;
+            text-transform: uppercase; color: #666;
+            margin-bottom: 4px;
+        }
+        .warranty-box-value {
+            font-size: 14px; font-weight: 700;
+            color: #fff;
+        }
+        @media (max-width: 480px) {
+            .warranty-box-grid { grid-template-columns: 1fr; }
+            .warranty-box-item { border-right: none; }
+            .gallery-thumb { width: 56px; height: 56px; }
+        }
     </style>
 </head>
 <body>
@@ -1122,16 +1201,28 @@
             <div id="productContent" style="display:none;">
                 <div style="display:flex; gap:60px; align-items:flex-start; flex-wrap:wrap;">
 
-                    <!-- Image Side -->
+                    <!-- Image Gallery Side -->
                     <div style="flex:1; min-width:300px;" class="fade-in-left">
-                        <img id="prodMainImg" src="" alt="" style="width:100%; border:1px solid rgba(184,150,46,0.15); object-fit:cover;">
+                        <div class="product-gallery">
+                            <img id="prodMainImg" src="" alt="" class="gallery-main-img">
+                            <div class="gallery-thumbs" id="prodThumbs"></div>
+                        </div>
                     </div>
 
                     <!-- Info Side -->
                     <div style="flex:1; min-width:300px;" class="fade-in-right">
                         <div id="prodCategory" style="color:#b8962e; font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;"></div>
                         <h1 id="prodName" style="font-size:clamp(28px, 4vw, 48px); font-weight:600; font-family:'Playfair Display', serif; margin-bottom:24px;"></h1>
-                        <p id="prodDesc" style="color:#888; line-height:1.8; margin-bottom:40px; font-size:15px;"></p>
+                        <p id="prodDesc" style="color:#888; line-height:1.8; margin-bottom:28px; font-size:15px;"></p>
+
+                        <!-- WARRANTY BOX -->
+                        <div class="warranty-box" id="prodWarrantyBox" style="display:none;">
+                            <div class="warranty-box-header">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                                <span>Product Details & Warranty</span>
+                            </div>
+                            <div class="warranty-box-grid" id="prodWarrantyGrid"></div>
+                        </div>
 
                         <div style="display:flex; flex-direction:column; gap:12px;">
                             <button id="prodCartBtn" class="btn-add-cart" style="padding:16px; font-size:11px;">
@@ -1486,23 +1577,56 @@
 
             const p = snap.data();
 
-            // Fill in the product details
-            document.getElementById('prodMainImg').src = p.imageUrl || 'images/gallery-faucet-steel.png';
-            document.getElementById('prodMainImg').alt = p.name || '';
+            // Fill in product details
+            const mainImg = document.getElementById('prodMainImg');
+            mainImg.src = p.imageUrl || 'images/gallery-faucet-steel.png';
+            mainImg.alt = p.name || '';
             document.getElementById('prodCategory').textContent = (p.category || '') + ' Collection';
             document.getElementById('prodName').textContent = p.name || '';
             document.getElementById('prodDesc').textContent = p.description || '';
+            document.title = \`LENORE — \${p.name || 'Product'}\`;
 
-            // Update page title
-            document.title = `LENORE — ${p.name || 'Product'}`;
+            // Build image gallery thumbnails
+            const thumbsEl = document.getElementById('prodThumbs');
+            const allImgs = [p.imageUrl, ...(p.extraImages || [])].filter(Boolean);
+            if (allImgs.length > 1) {
+                thumbsEl.innerHTML = allImgs.map((url, i) => `
+                    <img src="${url}" class="gallery-thumb ${i === 0 ? 'active' : ''}"
+                         onclick="switchMainImg(this, '${url}')"
+                         onerror="this.style.display='none'">
+                `).join('');
+            } else {
+                thumbsEl.innerHTML = '';
+            }
 
-            // Wire up Add to Cart button
+            // Warranty box
+            const w = p.warranty || {};
+            const warrantyItems = [
+                { label: 'Warranty', value: w.period },
+                { label: 'Finish', value: w.finish },
+                { label: 'Installation', value: w.installation },
+                { label: 'Material', value: w.material }
+            ].filter(item => item.value);
+
+            const warrantyBox = document.getElementById('prodWarrantyBox');
+            const warrantyGrid = document.getElementById('prodWarrantyGrid');
+            if (warrantyItems.length > 0) {
+                warrantyGrid.innerHTML = warrantyItems.map(item => `
+                    <div class="warranty-box-item">
+                        <div class="warranty-box-label">${item.label}</div>
+                        <div class="warranty-box-value">${item.value}</div>
+                    </div>
+                `).join('');
+                warrantyBox.style.display = 'block';
+            } else {
+                warrantyBox.style.display = 'none';
+            }
+
+            // Buttons
             document.getElementById('prodCartBtn').onclick = () => {
                 addToCart(productId, p.name, '', p.imageUrl || '', p.category || '');
                 openCart();
             };
-
-            // Wire up WhatsApp button
             document.getElementById('prodWaBtn').onclick = () => {
                 orderProductViaWhatsapp(p.name, p.category || '');
             };
@@ -1510,8 +1634,6 @@
             // Show content
             loading.style.display = 'none';
             content.style.display = 'block';
-
-            // Trigger fade animations
             setTimeout(() => {
                 document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(el => el.classList.add('visible'));
             }, 100);
@@ -1525,6 +1647,16 @@
 
     loadProduct();
     </script>
+
+    <script>
+    function switchMainImg(thumb, url) {
+        document.getElementById('prodMainImg').src = url;
+        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+    </script>
+
 </body>
 </html>
+
 
