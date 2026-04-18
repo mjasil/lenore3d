@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LENORE — Where Luxury Flows Every Day | Premium Sanitary Ware</title>
     <meta name="description" content="Lenore — luxury sanitary ware crafted in excellence. Discover premium faucets, showers, and hygiene solutions with timeless gold craftsmanship.">
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -1134,9 +1136,152 @@
             .warranty-box-item { border-right: none; }
             .gallery-thumb { width: 56px; height: 56px; }
         }
+
+        /* ===== BACK BUTTON ===== */
+        .back-to-catalog {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            color: #666; transition: color 0.3s ease;
+            margin-bottom: 32px; cursor: pointer;
+            text-decoration: none;
+        }
+        .back-to-catalog:hover { color: #b8962e; }
+        .back-to-catalog svg { width: 14px; height: 14px; }
+
+        /* ===== SHARE BUTTON ===== */
+        .btn-share {
+            width: 100%;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: transparent;
+            border: 1px solid rgba(184,150,46,0.3);
+            color: #b8962e; padding: 14px 16px;
+            font-family: 'Lato', sans-serif;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-share:hover { background: rgba(184,150,46,0.08); border-color: #b8962e; }
+        .btn-share svg { width: 14px; height: 14px; }
+
+        /* ===== IMAGE ZOOM MODAL ===== */
+        #imgZoomModal {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+        }
+        #imgZoomModal.open { display: flex; }
+        #imgZoomModal img {
+            max-width: 90vw; max-height: 90vh;
+            object-fit: contain;
+            border: 1px solid rgba(184,150,46,0.2);
+        }
+        #imgZoomClose {
+            position: absolute; top: 20px; right: 24px;
+            background: none; border: none;
+            color: #888; font-size: 32px; cursor: pointer;
+            transition: color 0.2s ease; line-height: 1;
+        }
+        #imgZoomClose:hover { color: #b8962e; }
+
+        /* ===== RELATED PRODUCTS ===== */
+        .related-section {
+            padding: 60px 0;
+            background: #0e0e0e;
+            border-top: 1px solid rgba(184,150,46,0.1);
+        }
+        .related-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 600; font-style: italic;
+            margin-bottom: 32px;
+        }
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .related-card {
+            border: 1px solid rgba(184,150,46,0.08);
+            cursor: pointer; overflow: hidden;
+            transition: border-color 0.3s ease;
+            text-decoration: none; color: inherit;
+            display: block;
+        }
+        .related-card:hover { border-color: rgba(184,150,46,0.3); }
+        .related-card img {
+            width: 100%; aspect-ratio: 1;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .related-card:hover img { transform: scale(1.05); }
+        .related-card-info {
+            padding: 14px 16px;
+            background: #0f0f0f;
+        }
+        .related-card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px; font-weight: 600;
+            margin-bottom: 4px; color: #fff;
+        }
+        .related-card-cat {
+            font-size: 10px; letter-spacing: 1px;
+            text-transform: uppercase; color: #b8962e;
+        }
+        @media (max-width: 768px) {
+            .related-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        }
+        @media (max-width: 480px) {
+            .related-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+        }
+
+        /* ===== FLOATING WA ===== */
+        #floatingWA {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 56px; height: 56px;
+            background: #25D366; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 900;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            transition: all 0.3s ease;
+            cursor: pointer; text-decoration: none;
+        }
+        #floatingWA:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(37,211,102,0.6); }
+        #floatingWA svg { width: 28px; height: 28px; }
+
+        /* Scroll progress */
+        #scrollProgress {
+            position: fixed; top: 0; left: 0;
+            height: 2px; width: 0%;
+            background: linear-gradient(90deg, #b8962e, #d4af37, #f0d060);
+            z-index: 9999; transition: width 0.05s linear;
+        }
+        /* Page transition */
+        .page-transition-overlay {
+            position: fixed; inset: 0; background: #0a0a0a;
+            z-index: 99998; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .page-transition-overlay.active { opacity: 1; pointer-events: all; }
     </style>
 </head>
 <body>
+
+    <div id="scrollProgress"></div>
+    <div class="page-transition-overlay" id="pageTransition"></div>
+    <a id="floatingWA" href="https://wa.me/917511163131" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+    <!-- IMAGE ZOOM MODAL -->
+    <div id="imgZoomModal">
+        <button id="imgZoomClose" onclick="closeZoom()">&times;</button>
+        <img id="imgZoomImg" src="" alt="">
+    </div>
 
     <!-- ===== HEADER ===== -->
     <header class="header" id="header">
@@ -1181,8 +1326,17 @@
         </div>
     </div>
 
+    <!-- Back to Collections -->
+    <div style="padding: 100px 0 0; background:#0a0a0a;">
+        <div class="container">
+            <a href="catalog.html" class="back-to-catalog">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+                Back to Collections
+            </a>
+        </div>
+    </div>
     <!-- ===== PRODUCT HERO — Dynamic from Firebase ===== -->
-    <section class="product-presentation" id="hero" style="padding: 140px 0 80px; background:#0a0a0a;">
+    <section class="product-presentation" id="hero" style="padding: 20px 0 80px; background:#0a0a0a;">
         <div class="container">
 
             <!-- Loading state -->
@@ -1204,7 +1358,7 @@
                     <!-- Image Gallery Side -->
                     <div style="flex:1; min-width:300px;" class="fade-in-left">
                         <div class="product-gallery">
-                            <img id="prodMainImg" src="" alt="" class="gallery-main-img">
+                            <img id="prodMainImg" src="" alt="" class="gallery-main-img" onclick="openZoom(this.src)" style="cursor:zoom-in;">
                             <div class="gallery-thumbs" id="prodThumbs"></div>
                         </div>
                     </div>
@@ -1233,11 +1387,24 @@
                                 <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                                 Order via WhatsApp
                             </button>
+                            <button class="btn-share" id="prodShareBtn" onclick="shareProduct()">
+                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                Share Product
+                            </button>
                         </div>
                     </div>
 
                 </div>
             </div>
+        </div>
+    </section>
+
+
+    <!-- ===== RELATED PRODUCTS ===== -->
+    <section class="related-section" id="relatedSection" style="display:none;">
+        <div class="container">
+            <h2 class="related-title">You May Also Like</h2>
+            <div class="related-grid" id="relatedGrid"></div>
         </div>
     </section>
 
@@ -1249,7 +1416,7 @@
             <h2 class="whatsapp-title fade-in">Have Custom Requirements?</h2>
             <p class="whatsapp-desc fade-in" style="transition-delay:0.1s">Contact our dedicated concierge to arrange customized finishes or discuss large architectural orders.</p>
             <div class="whatsapp-actions fade-in" style="transition-delay:0.25s">
-                <a href="https://wa.me/971521149000" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
+                <a href="https://wa.me/917511163131" target="_blank" class="btn-whatsapp">Chat on WhatsApp</a>
             </div>
         </div>
     </section>
@@ -1444,7 +1611,7 @@
     <div id="cartToast"></div>
 
     <script>
-    const WA_NUMBER = '971521149000';
+    const WA_NUMBER = '917511163131';
     function getCart() { try { return JSON.parse(localStorage.getItem('lenore_cart') || '[]'); } catch { return []; } }
     function saveCart(cart) { localStorage.setItem('lenore_cart', JSON.stringify(cart)); renderCart(); }
     function addToCart(id, name, price, image, category) {
@@ -1630,6 +1797,9 @@
                 document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(el => el.classList.add('visible'));
             }, 100);
 
+            // Load related products (same category)
+            loadRelated(p.category, productId);
+
         } catch(e) {
             loading.style.display = 'none';
             notFound.style.display = 'block';
@@ -1638,6 +1808,33 @@
     }
 
     loadProduct();
+
+    async function loadRelated(category, currentId) {
+        if (!category) return;
+        try {
+            const { getDocs, collection: col, query, where, limit } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+            const q = query(col(db, 'products'), where('category', '==', category), limit(6));
+            const snap = await getDocs(q);
+            const related = snap.docs
+                .map(d => ({ id: d.id, ...d.data() }))
+                .filter(p => p.id !== currentId)
+                .slice(0, 3);
+
+            if (related.length === 0) return;
+
+            const grid = document.getElementById('relatedGrid');
+            const section = document.getElementById('relatedSection');
+            grid.innerHTML = related.map(p => 
+                '<a href="product.html?id=' + p.id + '" class="related-card">' +
+                '<img src="' + (p.imageUrl || 'images/gallery-faucet-steel.png') + '" alt="' + p.name + '" onerror="this.src='images/gallery-faucet-steel.png'">' +
+                '<div class="related-card-info">' +
+                '<div class="related-card-name">' + p.name + '</div>' +
+                '<div class="related-card-cat">' + (p.category || '') + '</div>' +
+                '</div></a>'
+            ).join('');
+            section.style.display = 'block';
+        } catch(e) { console.log('Related products error:', e); }
+    }
     </script>
 
     <script>
@@ -1646,6 +1843,61 @@
         document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
         thumb.classList.add('active');
     }
+    </script>
+
+
+    <script>
+    /* ===== SCROLL PROGRESS ===== */
+    window.addEventListener('scroll', () => {
+        const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        document.getElementById('scrollProgress').style.width = progress + '%';
+    }, { passive: true });
+
+    /* ===== PAGE TRANSITIONS ===== */
+    document.querySelectorAll('a[href]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href');
+            const overlay = document.getElementById('pageTransition');
+            overlay.classList.add('active');
+            setTimeout(() => { window.location.href = target; }, 300);
+        });
+    });
+
+    /* ===== IMAGE ZOOM ===== */
+    function openZoom(src) {
+        document.getElementById('imgZoomImg').src = src;
+        document.getElementById('imgZoomModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeZoom() {
+        document.getElementById('imgZoomModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('imgZoomModal').addEventListener('click', function(e) {
+        if (e.target === this) closeZoom();
+    });
+
+    /* ===== SHARE PRODUCT ===== */
+    function shareProduct() {
+        const url = window.location.href;
+        const name = document.getElementById('prodName').textContent;
+        if (navigator.share) {
+            navigator.share({ title: 'Lenore — ' + name, url: url });
+        } else {
+            const msg = 'Check out this product from Lenore: ' + name + ' - ' + url;
+            window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+        }
+    }
+
+    /* ===== CART SYNC ACROSS TABS (Feature 19) ===== */
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'lenore_cart') {
+            renderCart();
+        }
+    });
     </script>
 
 </body>
