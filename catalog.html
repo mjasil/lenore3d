@@ -1170,10 +1170,7 @@
             <p class="catalog-desc fade-in" style="transition-delay:0.15s">Explore our distinct collections of luxurious sanitary ware—crafted to elevate your everyday routines into a timeless ritual.</p>
             
             <div class="catalog-filters fade-in" style="transition-delay:0.3s">
-                <button class="filter-btn active" data-filter="All">All</button>
-                <button class="filter-btn" data-filter="Faucets">Faucets</button>
-                <button class="filter-btn" data-filter="Showers">Showers</button>
-                <button class="filter-btn" data-filter="Hygiene">Hygiene</button>
+<button class="filter-btn active" data-filter="All">All</button>
             </div>
         </div>
     </section>
@@ -1476,6 +1473,9 @@
         allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         updateFilterButtons();
         renderProducts(currentFilter);
+    }, function(error) {
+        console.error('Firebase error:', error);
+        document.getElementById('catalogGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#e05;font-size:13px;letter-spacing:1px;">Failed to load products. Please refresh.</div>';
     });
 
     function updateFilterButtons() {
@@ -1518,7 +1518,7 @@
             return '<div class="gallery-card fade-in" data-category="' + (p.category||'') + '" style="transition-delay:' + (i*0.07) + 's;position:relative;">' +
                 badge +
                 '<a href="product.html?id=' + p.id + '" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">' +
-                '<img src="' + (p.imageUrl||'images/gallery-faucet-steel.png') + '" alt="' + p.name + '" onerror="this.src='images/gallery-faucet-steel.png'">' +
+                '<img src="' + (p.imageUrl||'images/gallery-faucet-steel.png') + '" alt="' + p.name + '" onerror="this.src=\'images/gallery-faucet-steel.png\'">' +
                 '<div class="gallery-card-overlay">' +
                 '<h3 class="gallery-card-title">' + p.name + '</h3>' +
                 '<p style="color:#aaa;font-size:11px;margin-bottom:8px;letter-spacing:1px;">' + (p.category||'') + '</p>' +
@@ -1559,4 +1559,5 @@
 
 </body>
 </html>
+
 
