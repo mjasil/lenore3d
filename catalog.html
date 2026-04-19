@@ -1274,7 +1274,40 @@
         const searchClose = document.getElementById('searchClose');
         searchOpen.addEventListener('click', () => {
             searchModal.classList.add('active');
-            searchModal.querySelector('input').focus();
+            setTimeout(() => searchModal.querySelector('input').focus(), 400);
+        });
+        // Search Enter key
+        searchModal.querySelector('input').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const q = e.target.value.trim().toLowerCase();
+                if (q.length > 1) {
+                    searchModal.classList.remove('active');
+                    // Filter products by search query
+                    if (typeof allProducts !== 'undefined') {
+                        window._searchQuery = q;
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelector('[data-filter="All"]').classList.add('active');
+                        const grid = document.getElementById('catalogGrid');
+                        const filtered = allProducts.filter(p =>
+                            (p.name||'').toLowerCase().includes(q) ||
+                            (p.category||'').toLowerCase().includes(q) ||
+                            (p.description||'').toLowerCase().includes(q)
+                        );
+                        if (filtered.length === 0) {
+                            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:#555;font-size:13px;letter-spacing:1px;">No products found for "' + q + '"</div>';
+                        } else {
+                            if (typeof renderProducts === 'function') {
+                                allProducts_backup = allProducts;
+                                // Temporarily filter
+                                const origAll = allProducts;
+                                allProducts = filtered;
+                                renderProducts('All');
+                                allProducts = origAll;
+                            }
+                        }
+                    }
+                }
+            }
         });
         searchClose.addEventListener('click', () => {
             searchModal.classList.remove('active');
@@ -1546,6 +1579,7 @@
         if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            if (document.activeElement) document.activeElement.blur();
             const target = this.getAttribute('href');
             document.getElementById('pageTransition').classList.add('active');
             setTimeout(() => { window.location.href = target; }, 300);
@@ -1559,5 +1593,4 @@
 
 </body>
 </html>
-
 
