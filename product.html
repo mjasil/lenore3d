@@ -1721,7 +1721,9 @@
             if (!related.length) return;
             var html = '';
             related.forEach(function(p) {
-                html += '<a href="product.html?id='+p.id+'" class="related-card"><img src="'+(p.imageUrl||'')+'" onerror="this.src='images/gallery-faucet-steel.png'"><div class="related-card-info"><div class="related-card-name">'+(p.name||'')+'</div><div class="related-card-cat">'+(p.category||'')+'</div></div></a>';
+                html += '<a href="product.html?id=' + p.id + '" class="related-card">';
+                html += '<img src="' + (p.imageUrl || 'images/gallery-faucet-steel.png') + '" onerror="this.onerror=null;this.src=\'images/gallery-faucet-steel.png\'">';
+                html += '<div class="related-card-info"><div class="related-card-name">' + (p.name || '') + '</div><div class="related-card-cat">' + (p.category || '') + '</div></div></a>';
             });
             var grid = document.getElementById('relatedGrid');
             var sec = document.getElementById('relatedSection');
