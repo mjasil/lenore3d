@@ -1343,6 +1343,7 @@
             <div id="productLoading" style="text-align:center;padding:80px 0;">
                 <div style="width:28px;height:28px;border:2px solid rgba(184,150,46,0.2);border-top-color:#b8962e;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto 16px;"></div>
                 <p style="color:#555;font-size:12px;letter-spacing:2px;text-transform:uppercase;">Loading...</p>
+                <p id="debugMsg" style="color:#e05;font-size:11px;margin-top:12px;letter-spacing:1px;"></p>
             </div>
 
             <!-- Not found state -->
@@ -1708,10 +1709,15 @@
 
 
     <!-- Firebase Dynamic Product Loader -->
-    <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, getDocs, collection, query, where, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    <script>
+    // ── Simple non-module Firebase loader ──
+    // Load Firebase via CDN compat version (no module needed)
+    </script>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
     const firebaseConfig = {
         apiKey: "AIzaSyD7xOFrxjaszBRmQrB9Jx9jL7jrSOgyZ4o",
         authDomain: "lenore-c8447.firebaseapp.com",
@@ -1721,217 +1727,143 @@
         appId: "1:190737484441:web:25a45124f2c556b3b74608"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    // Get product ID from URL ?id=xxx
     const params = new URLSearchParams(window.location.search);
     const productId = params.get('id');
 
-    const loading    = document.getElementById('productLoading');
-    const notFound   = document.getElementById('productNotFound');
-    const content    = document.getElementById('productContent');
+    const loadingEl  = document.getElementById('productLoading');
+    const notFoundEl = document.getElementById('productNotFound');
+    const contentEl  = document.getElementById('productContent');
+    const debugEl    = document.getElementById('debugMsg');
+
+    function setDebug(msg) {
+        console.log('[Lenore]', msg);
+        if (debugEl) debugEl.textContent = msg;
+    }
 
     async function loadProduct() {
+        setDebug('Starting...');
+
         if (!productId) {
-            loading.style.display = 'none';
-            notFound.style.display = 'block';
+            setDebug('No product ID in URL');
+            loadingEl.style.display = 'none';
+            notFoundEl.style.display = 'block';
             return;
         }
 
-        try {
-            const snap = await getDoc(doc(db, 'products', productId));
+        setDebug('Loading ID: ' + productId);
 
-            if (!snap.exists()) {
-                loading.style.display = 'none';
-                notFound.style.display = 'block';
+        try {
+            const snap = await db.collection('products').doc(productId).get();
+            setDebug('Got response. exists=' + snap.exists);
+
+            if (!snap.exists) {
+                loadingEl.style.display = 'none';
+                notFoundEl.style.display = 'block';
+                notFoundEl.innerHTML += '<p style="color:#888;font-size:11px;margin-top:8px;">ID: ' + productId + '</p>';
                 return;
             }
 
             const p = snap.data();
+            setDebug('Product: ' + p.name);
 
-            // Fill in product details
-            const mainImg = document.getElementById('prodMainImg');
-            mainImg.src = p.imageUrl || 'images/gallery-faucet-steel.png';
-            mainImg.alt = p.name || '';
+            // Fill details
+            document.getElementById('prodMainImg').src = p.imageUrl || '';
+            document.getElementById('prodMainImg').alt = p.name || '';
             document.getElementById('prodCategory').textContent = (p.category || '') + ' Collection';
             document.getElementById('prodName').textContent = p.name || '';
             document.getElementById('prodDesc').textContent = p.description || '';
             document.title = 'LENORE — ' + (p.name || 'Product');
 
-            // Build image gallery thumbnails
+            // Thumbnails
             const thumbsEl = document.getElementById('prodThumbs');
-            const allImgs = [p.imageUrl, ...(p.extraImages || [])].filter(Boolean);
+            const allImgs = [p.imageUrl].concat(p.extraImages || []).filter(Boolean);
             if (allImgs.length > 1) {
                 thumbsEl.innerHTML = allImgs.map(function(url, i) {
-                    return '<img src="' + url + '" class="gallery-thumb ' + (i === 0 ? 'active' : '') + '" onclick="switchMainImg(this, \'' + url + '\')" onerror="this.style.display=\'none\'">';
+                    return '<img src="' + url + '" class="gallery-thumb ' + (i === 0 ? 'active' : '') + '" onclick="switchMainImg(this,\'' + url + '\')" onerror="this.style.display=\'none\'">';
                 }).join('');
-            } else {
-                thumbsEl.innerHTML = '';
             }
 
-            // Warranty box
-            const w = p.warranty || {};
-            const warrantyItems = [
+            // Warranty
+            var w = p.warranty || {};
+            var warrantyItems = [
                 { label: 'Warranty', value: w.period },
                 { label: 'Finish', value: w.finish },
                 { label: 'Installation', value: w.installation },
                 { label: 'Material', value: w.material }
-            ].filter(item => item.value);
+            ].filter(function(x) { return x.value; });
 
-            const warrantyBox = document.getElementById('prodWarrantyBox');
-            const warrantyGrid = document.getElementById('prodWarrantyGrid');
+            var warrantyBox = document.getElementById('prodWarrantyBox');
+            var warrantyGrid = document.getElementById('prodWarrantyGrid');
             if (warrantyItems.length > 0) {
                 warrantyGrid.innerHTML = warrantyItems.map(function(item) {
                     return '<div class="warranty-box-item"><div class="warranty-box-label">' + item.label + '</div><div class="warranty-box-value">' + item.value + '</div></div>';
                 }).join('');
                 warrantyBox.style.display = 'block';
-            } else {
-                warrantyBox.style.display = 'none';
             }
 
-            // Store product data on buttons for regular script to access
-            const cartBtn = document.getElementById('prodCartBtn');
-            const waBtn = document.getElementById('prodWaBtn');
-            const shareBtn = document.getElementById('prodShareBtn');
-
-            cartBtn.setAttribute('data-pid', productId);
-            cartBtn.setAttribute('data-name', p.name || '');
-            cartBtn.setAttribute('data-img', p.imageUrl || '');
-            cartBtn.setAttribute('data-cat', p.category || '');
-
-            waBtn.setAttribute('data-name', p.name || '');
-            waBtn.setAttribute('data-cat', p.category || '');
-
-            // Use window functions that are accessible from module
-            cartBtn.onclick = function() {
-                if (window.addToCart) {
-                    window.addToCart(this.dataset.pid, this.dataset.name, '', this.dataset.img, this.dataset.cat);
-                    if (window.openCart) window.openCart();
-                }
+            // Buttons
+            document.getElementById('prodCartBtn').onclick = function() {
+                addToCart(productId, p.name || '', '', p.imageUrl || '', p.category || '');
+                openCart();
             };
-            waBtn.onclick = function() {
-                if (window.orderProductViaWhatsapp) {
-                    window.orderProductViaWhatsapp(this.dataset.name, this.dataset.cat);
-                }
+            document.getElementById('prodWaBtn').onclick = function() {
+                orderProductViaWhatsapp(p.name || '', p.category || '');
             };
+            var shareBtn = document.getElementById('prodShareBtn');
             if (shareBtn) {
-                shareBtn.onclick = function() {
-                    if (window.shareProduct) window.shareProduct();
-                };
+                shareBtn.onclick = function() { shareProduct(); };
             }
 
-            // Show content
-            loading.style.display = 'none';
-            content.style.display = 'block';
-            setTimeout(() => {
-                document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(el => el.classList.add('visible'));
+            // Show
+            loadingEl.style.display = 'none';
+            contentEl.style.display = 'block';
+            setTimeout(function() {
+                document.querySelectorAll('.fade-in-left, .fade-in-right').forEach(function(el) {
+                    el.classList.add('visible');
+                });
             }, 100);
 
-            // Load related products (same category)
+            // Related
             loadRelated(p.category, productId);
 
         } catch(e) {
-            console.error('Error loading product:', e);
-            loading.style.display = 'none';
-            // Show error message instead of generic not found
-            notFound.style.display = 'block';
-            notFound.innerHTML = '<p style="color:#e05;font-size:14px;margin-bottom:16px;">Error: ' + e.message + '</p><a href="catalog.html" style="color:#b8962e;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(184,150,46,0.4);padding:12px 28px;">Back to Collections</a>';
+            setDebug('ERROR: ' + e.message + ' | code: ' + (e.code || 'none'));
+            console.error(e);
+            loadingEl.style.display = 'none';
+            notFoundEl.style.display = 'block';
+            notFoundEl.innerHTML = '<p style="color:#e05;font-size:13px;margin-bottom:8px;">Error: ' + e.message + '</p><p style="color:#666;font-size:11px;margin-bottom:20px;">Code: ' + (e.code || 'unknown') + '</p><a href="catalog.html" style="color:#b8962e;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(184,150,46,0.4);padding:12px 28px;">Back to Collections</a>';
         }
     }
-
-    loadProduct();
 
     async function loadRelated(category, currentId) {
         if (!category) return;
         try {
-            const q = query(collection(db, 'products'), where('category', '==', category), limit(6));
-            const snap = await getDocs(q);
-            const related = snap.docs
-                .map(d => ({ id: d.id, ...d.data() }))
-                .filter(p => p.id !== currentId)
-                .slice(0, 3);
+            var snap = await db.collection('products').where('category', '==', category).limit(6).get();
+            var related = snap.docs.map(function(d) {
+                return Object.assign({ id: d.id }, d.data());
+            }).filter(function(p) { return p.id !== currentId; }).slice(0, 3);
 
             if (related.length === 0) return;
 
-            const grid = document.getElementById('relatedGrid');
-            const section = document.getElementById('relatedSection');
-            grid.innerHTML = related.map(p => 
-                '<a href="product.html?id=' + p.id + '" class="related-card">' +
-                '<img src="' + (p.imageUrl || 'images/gallery-faucet-steel.png') + '" alt="' + p.name + '" onerror="this.src='images/gallery-faucet-steel.png'">' +
-                '<div class="related-card-info">' +
-                '<div class="related-card-name">' + p.name + '</div>' +
-                '<div class="related-card-cat">' + (p.category || '') + '</div>' +
-                '</div></a>'
-            ).join('');
-            section.style.display = 'block';
-        } catch(e) { console.log('Related products error:', e); }
-    }
-    </script>
-
-    <script>
-    function switchMainImg(thumb, url) {
-        document.getElementById('prodMainImg').src = url;
-        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
-    }
-    </script>
-
-
-    <script>
-    /* ===== SCROLL PROGRESS ===== */
-    window.addEventListener('scroll', () => {
-        const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        document.getElementById('scrollProgress').style.width = progress + '%';
-    }, { passive: true });
-
-    /* ===== PAGE TRANSITIONS ===== */
-    document.querySelectorAll('a[href]').forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.getAttribute('href');
-            const overlay = document.getElementById('pageTransition');
-            overlay.classList.add('active');
-            setTimeout(() => { window.location.href = target; }, 300);
-        });
-    });
-
-    /* ===== IMAGE ZOOM ===== */
-    function openZoom(src) {
-        document.getElementById('imgZoomImg').src = src;
-        document.getElementById('imgZoomModal').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeZoom() {
-        document.getElementById('imgZoomModal').classList.remove('open');
-        document.body.style.overflow = '';
-    }
-    document.getElementById('imgZoomModal').addEventListener('click', function(e) {
-        if (e.target === this) closeZoom();
-    });
-
-    /* ===== SHARE PRODUCT ===== */
-    function shareProduct() {
-        const url = window.location.href;
-        const name = document.getElementById('prodName').textContent;
-        if (navigator.share) {
-            navigator.share({ title: 'Lenore — ' + name, url: url });
-        } else {
-            const msg = 'Check out this product from Lenore: ' + name + ' - ' + url;
-            window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
-        }
+            var grid = document.getElementById('relatedGrid');
+            var section = document.getElementById('relatedSection');
+            if (!grid) return;
+            grid.innerHTML = related.map(function(p) {
+                return '<a href="product.html?id=' + p.id + '" class="related-card">' +
+                    '<img src="' + (p.imageUrl || '') + '" alt="' + (p.name || '') + '" onerror="this.src='images/gallery-faucet-steel.png'">' +
+                    '<div class="related-card-info">' +
+                    '<div class="related-card-name">' + (p.name || '') + '</div>' +
+                    '<div class="related-card-cat">' + (p.category || '') + '</div>' +
+                    '</div></a>';
+            }).join('');
+            if (section) section.style.display = 'block';
+        } catch(e) { console.log('Related error:', e.message); }
     }
 
-    window.shareProduct = shareProduct;
-
-    /* ===== CART SYNC ACROSS TABS (Feature 19) ===== */
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'lenore_cart') {
-            renderCart();
-        }
-    });
+    window.addEventListener('load', loadProduct);
     </script>
 
 </body>
