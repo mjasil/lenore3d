@@ -1727,7 +1727,9 @@
         appId: "1:190737484441:web:25a45124f2c556b3b74608"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
 
     const params = new URLSearchParams(window.location.search);
@@ -1842,28 +1844,33 @@
         if (!category) return;
         try {
             var snap = await db.collection('products').where('category', '==', category).limit(6).get();
-            var related = snap.docs.map(function(d) {
-                return Object.assign({ id: d.id }, d.data());
-            }).filter(function(p) { return p.id !== currentId; }).slice(0, 3);
-
+            var related = [];
+            snap.forEach(function(d) {
+                if (d.id !== currentId) related.push(Object.assign({ id: d.id }, d.data()));
+            });
+            related = related.slice(0, 3);
             if (related.length === 0) return;
 
             var grid = document.getElementById('relatedGrid');
             var section = document.getElementById('relatedSection');
             if (!grid) return;
-            grid.innerHTML = related.map(function(p) {
-                return '<a href="product.html?id=' + p.id + '" class="related-card">' +
-                    '<img src="' + (p.imageUrl || '') + '" alt="' + (p.name || '') + '" onerror="this.src='images/gallery-faucet-steel.png'">' +
-                    '<div class="related-card-info">' +
-                    '<div class="related-card-name">' + (p.name || '') + '</div>' +
-                    '<div class="related-card-cat">' + (p.category || '') + '</div>' +
-                    '</div></a>';
-            }).join('');
+
+            var html = '';
+            related.forEach(function(p) {
+                var imgSrc = p.imageUrl || 'images/gallery-faucet-steel.png';
+                html += '<a href="product.html?id=' + p.id + '" class="related-card">';
+                html += '<img src="' + imgSrc + '" alt="' + (p.name || '') + '" onerror="this.onerror=null;this.src='images/gallery-faucet-steel.png'">';
+                html += '<div class="related-card-info">';
+                html += '<div class="related-card-name">' + (p.name || '') + '</div>';
+                html += '<div class="related-card-cat">' + (p.category || '') + '</div>';
+                html += '</div></a>';
+            });
+            grid.innerHTML = html;
             if (section) section.style.display = 'block';
         } catch(e) { console.log('Related error:', e.message); }
     }
 
-    window.addEventListener('load', loadProduct);
+    document.addEventListener('DOMContentLoaded', loadProduct);
     </script>
 
 </body>
