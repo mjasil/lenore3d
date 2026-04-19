@@ -1509,19 +1509,36 @@
         const searchClose = document.getElementById('searchClose');
         searchOpen.addEventListener('click', () => {
             searchModal.classList.add('active');
-            searchModal.querySelector('input').focus();
+            setTimeout(() => {
+                searchModal.querySelector('input').focus();
+            }, 400);
         });
         searchClose.addEventListener('click', () => {
             searchModal.classList.remove('active');
+            searchModal.querySelector('input').value = '';
         });
         searchModal.addEventListener('click', (e) => {
             if (e.target === searchModal) {
                 searchModal.classList.remove('active');
+                searchModal.querySelector('input').value = '';
             }
         });
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 searchModal.classList.remove('active');
+                searchModal.querySelector('input').value = '';
+            }
+        });
+
+        /* ===== SEARCH FUNCTIONALITY ===== */
+        const searchInput = searchModal.querySelector('input');
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim().toLowerCase();
+                if (query.length > 1) {
+                    searchModal.classList.remove('active');
+                    window.location.href = 'catalog.html?search=' + encodeURIComponent(query);
+                }
             }
         });
 
@@ -1859,6 +1876,7 @@
         if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) return;
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            if (document.activeElement) document.activeElement.blur();
             const target = this.getAttribute('href');
             const overlay = document.getElementById('pageTransition');
             overlay.classList.add('active');
